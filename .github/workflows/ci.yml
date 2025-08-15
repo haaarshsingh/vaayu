@@ -31,11 +31,6 @@ jobs:
       run: |
         bazel build //...
     
-    - name: Run smoke tests
-      run: |
-        cd tests/smoke
-        ./test_smoke.sh
-    
     - name: Test bazel test runner
       run: |
         bazel test //tests/smoke:smoke_test
