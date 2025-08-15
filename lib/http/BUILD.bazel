@@ -1,0 +1,10 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "http",
+    srcs = ["src/tinyhttp.c"],
+    hdrs = ["include/tinyhttp.h"],
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+    copts = ["-O2", "-Wall", "-Wextra", "-pedantic", "-Werror", "-std=c99"],
+)

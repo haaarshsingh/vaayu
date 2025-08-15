@@ -1,0 +1,11 @@
+{
+  "server": "tinyc/0.1",
+  "protocol": "HTTP/1.0",
+  "features": [
+    "Static file serving",
+    "Path traversal protection",
+    "MIME type detection",
+    "Security headers"
+  ],
+  "status": "running"
+}
