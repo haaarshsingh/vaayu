@@ -63,7 +63,6 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    // Initialize server
     int ret = vh_init(&server, docroot, port, index_file);
     if (ret != 0) {
         fprintf(stderr, "Failed to initialize server: %s\n", strerror(ret));
@@ -72,13 +71,11 @@ int main(int argc, char *argv[]) {
     
     server.max_header_bytes = max_header_bytes;
     
-    // Set up signal handler for graceful shutdown
     signal(SIGINT, sigint_handler);
     signal(SIGTERM, sigint_handler);
     
     printf("Starting HTTP server on port %d, serving %s\n", port, docroot);
     
-    // Main server loop
     while (running) {
         ret = vh_serve_once(&server);
         if (ret != 0 && running) {

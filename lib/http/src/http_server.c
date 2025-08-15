@@ -18,7 +18,6 @@
 #define RECV_TIMEOUT_SEC 5
 
 int vh_init(vh_server *srv, const char *docroot, int port, const char *index_file) {
-    // Don't resolve docroot path here to handle symlinks properly
     srv->docroot = strdup(docroot);
     srv->index_file = strdup(index_file ? index_file : "index.html");
     srv->port = port;
@@ -151,21 +150,16 @@ int vh_serve_once(vh_server *srv) {
         return 0;
     }
     
-    // Basic security check: file path should start with docroot
-    // We already validated the normalized path doesn't contain ".." so this is safe
     if (strncmp(file_path, srv->docroot, strlen(srv->docroot)) != 0) {
         vh_send_error(client_fd, 404, "Not Found", is_head);
         close(client_fd);
         return 0;
     }
     
-    // For file operations, try to resolve path, but don't fail if it's a symlink
     char resolved_path[PATH_MAX];
     if (realpath(file_path, resolved_path)) {
-        // Use resolved path if available
         strcpy(file_path, resolved_path);
     }
-    // If realpath fails, continue with original path (might be a symlink)
     
     struct stat st;
     if (stat(file_path, &st) < 0) {
@@ -233,4 +227,3 @@ int vh_serve_once(vh_server *srv) {
     close(file_fd);
     close(client_fd);
     return 0;
-}

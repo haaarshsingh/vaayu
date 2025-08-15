@@ -30,7 +30,7 @@ const char *vh_get_mime_type(const char *path) {
     const char *ext = strrchr(path, '.');
     if (!ext) return "application/octet-stream";
     
-    ext++; // Skip the dot
+    ext++;
     for (const mime_entry *entry = mime_map; entry->ext; entry++) {
         if (strcasecmp(ext, entry->ext) == 0) {
             return entry->mime;
