@@ -1,3 +1,1 @@
-This is a plain text file served by the TinyC HTTP server.
-
-It demonstrates serving text/plain content with proper MIME type detection.
+This is a plain text file served by the HTTP server.

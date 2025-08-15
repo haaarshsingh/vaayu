@@ -56,8 +56,15 @@ run_test() {
 
 # Setup
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SERVER_BIN="$SCRIPT_DIR/../../examples/static_server/static_server"
-WWW_DIR="$SCRIPT_DIR/../../examples/static_server/www"
+if [[ -n "$TEST_SRCDIR" ]]; then
+    # Running under Bazel
+    SERVER_BIN="$TEST_SRCDIR/_main/examples/static_server/static_server"
+    WWW_DIR="$TEST_SRCDIR/_main/examples/static_server/www"
+else
+    # Running directly
+    SERVER_BIN="$SCRIPT_DIR/../../examples/static_server/static_server"
+    WWW_DIR="$SCRIPT_DIR/../../examples/static_server/www"
+fi
 
 # Check if server binary exists
 if [[ ! -x "$SERVER_BIN" ]]; then

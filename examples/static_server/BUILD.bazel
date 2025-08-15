@@ -5,4 +5,5 @@ cc_binary(
     srcs = ["main.c"],
     deps = ["//lib/http:http"],
     copts = ["-O2", "-Wall", "-Wextra", "-pedantic", "-Werror", "-std=c99"],
+    visibility = ["//visibility:public"],
 )

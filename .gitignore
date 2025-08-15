@@ -1,0 +1,7 @@
+bazel-*
+*.bazel
+*.bazelrc
+bazel-bin/
+bazel-out/
+bazel-testlogs/
+bazel-genfiles/

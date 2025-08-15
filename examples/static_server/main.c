@@ -1,4 +1,4 @@
-#include "tinyhttp.h"
+#include "vaayu_http.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,13 +6,13 @@
 #include <signal.h>
 #include <errno.h>
 
-static th_server server;
+static vh_server server;
 static volatile int running = 1;
 
 static void sigint_handler(int sig) {
     (void)sig;
     running = 0;
-    th_close(&server);
+    vh_close(&server);
     exit(0);
 }
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     }
     
     // Initialize server
-    int ret = th_init(&server, docroot, port, index_file);
+    int ret = vh_init(&server, docroot, port, index_file);
     if (ret != 0) {
         fprintf(stderr, "Failed to initialize server: %s\n", strerror(ret));
         return 1;
@@ -75,16 +75,16 @@ int main(int argc, char *argv[]) {
     signal(SIGINT, sigint_handler);
     signal(SIGTERM, sigint_handler);
     
-    printf("Starting tinyc HTTP server on port %d, serving %s\n", port, docroot);
+    printf("Starting HTTP server on port %d, serving %s\n", port, docroot);
     
     // Main server loop
     while (running) {
-        ret = th_serve_once(&server);
+        ret = vh_serve_once(&server);
         if (ret != 0 && running) {
             fprintf(stderr, "Error serving request: %s\n", strerror(ret));
         }
     }
     
-    th_close(&server);
+    vh_close(&server);
     return 0;
 }

@@ -1,8 +1,6 @@
 ## Vaayu
 
-A tiny, auditable HTTP/1.0 server in C designed for serving static files safely. Built with security and simplicity in mind.
-
-⚠️ **Important**: This is a small HTTP server designed for personal use. Use at your own discretion.
+A tiny, auditable HTTP/1.0 static file server in C.
 
 ### Development
 
@@ -18,7 +16,7 @@ A tiny, auditable HTTP/1.0 server in C designed for serving static files safely.
 # Build all targets
 bazel build //...
 
-# Build just the server
+# Build just server
 bazel build //examples/static_server:static_server
 
 # Run tests
@@ -31,13 +29,13 @@ cd tests/smoke && ./test_smoke.sh
 #### Usage
 
 ```bash
-# Basic usage (serves ./www on port 8080)
+# Basic usage
 bazel run //examples/static_server:static_server
 
 # Custom port and document root
 bazel run //examples/static_server:static_server -- -p 3000 -r /path/to/files
 
-# All options
+# All
 bazel run //examples/static_server:static_server -- -h
 ```
 
@@ -54,7 +52,7 @@ Try these commands after starting the server:
 # Basic GET request
 curl -i http://localhost:8080/
 
-# HEAD request (headers only)
+# HEAD
 curl -I http://localhost:8080/index.html
 
 # Test different MIME types
@@ -64,6 +62,6 @@ curl -i http://localhost:8080/data.json
 # Test 404
 curl -i http://localhost:8080/nonexistent.txt
 
-# Test 405 (method not allowed)
+# Test 405
 curl -i -X POST http://localhost:8080/
 ```
