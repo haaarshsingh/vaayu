@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "vaayu_http.h"
 #include <sys/socket.h>
 #include <time.h>

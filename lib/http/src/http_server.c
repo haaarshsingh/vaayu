@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include "vaayu_http.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -5,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
