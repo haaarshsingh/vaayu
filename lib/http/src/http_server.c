@@ -227,3 +227,4 @@ int vh_serve_once(vh_server *srv) {
     close(file_fd);
     close(client_fd);
     return 0;
+}
