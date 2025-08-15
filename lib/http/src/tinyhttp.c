@@ -17,7 +17,6 @@
 #define MAX_PATH_LEN 4096
 #define RECV_TIMEOUT_SEC 5
 
-// MIME type mapping
 typedef struct {
     const char *ext;
     const char *mime;
@@ -102,22 +101,17 @@ static int send_error(int fd, int status, const char *reason, int is_head) {
 }
 
 static int normalize_path(const char *request_path, char *normalized) {
-    // Strip query string
     char *query = strchr(request_path, '?');
     size_t path_len = query ? (size_t)(query - request_path) : strlen(request_path);
     
-    // Reject fragments
     if (strchr(request_path, '#')) return -1;
     
-    // Check for .. traversal attempts (raw only, no percent-decoding)
     if (strstr(request_path, "..")) return -1;
     
-    // Copy and ensure null termination
     if (path_len >= MAX_PATH_LEN) return -1;
     memcpy(normalized, request_path, path_len);
     normalized[path_len] = '\0';
     
-    // Basic normalization: remove double slashes
     char *src = normalized, *dst = normalized;
     while (*src) {
         *dst = *src;
@@ -134,36 +128,30 @@ static int normalize_path(const char *request_path, char *normalized) {
 }
 
 int th_init(th_server *srv, const char *docroot, int port, const char *index_file) {
-    // Resolve docroot to absolute path
     char resolved_docroot[PATH_MAX];
     if (!realpath(docroot, resolved_docroot)) {
         return errno;
     }
     
-    // Allocate and store docroot
     srv->docroot = strdup(resolved_docroot);
     srv->index_file = strdup(index_file ? index_file : "index.html");
     srv->port = port;
     srv->max_header_bytes = 16384;
     
-    // Create socket
     srv->listen_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (srv->listen_fd < 0) return errno;
     
-    // Set SO_REUSEADDR
     int opt = 1;
     if (setsockopt(srv->listen_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
         close(srv->listen_fd);
         return errno;
     }
     
-    // Set FD_CLOEXEC
     int flags = fcntl(srv->listen_fd, F_GETFD);
     if (flags >= 0) {
         fcntl(srv->listen_fd, F_SETFD, flags | FD_CLOEXEC);
     }
     
-    // Bind
     struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = INADDR_ANY;
@@ -174,7 +162,6 @@ int th_init(th_server *srv, const char *docroot, int port, const char *index_fil
         return errno;
     }
     
-    // Listen
     if (listen(srv->listen_fd, 1) < 0) {
         close(srv->listen_fd);
         return errno;
@@ -195,11 +182,9 @@ void th_close(th_server *srv) {
 }
 
 int th_serve_once(th_server *srv) {
-    // Accept connection
     int client_fd = accept(srv->listen_fd, NULL, NULL);
     if (client_fd < 0) return errno;
     
-    // Set receive timeout
     struct timeval timeout = {RECV_TIMEOUT_SEC, 0};
     setsockopt(client_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
     
@@ -210,7 +195,6 @@ int th_serve_once(th_server *srv) {
     int request_line_done = 0;
     int headers_done = 0;
     
-    // Read request line and headers
     while (!headers_done && total_headers < srv->max_header_bytes) {
         ssize_t n = recv(client_fd, buf_pos, buf_remain, 0);
         if (n <= 0) {
@@ -227,7 +211,6 @@ int th_serve_once(th_server *srv) {
                 *line_end = '\0';
                 request_line_done = 1;
                 
-                // Check for end of headers
                 if (strstr(line_end + 2, "\r\n\r\n")) {
                     headers_done = 1;
                 }
@@ -249,7 +232,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Parse request line
     char method[16], path[MAX_PATH_LEN], version[16];
     if (sscanf(buffer, "%15s %4095s %15s", method, path, version) != 3) {
         send_error(client_fd, 400, "Bad Request", 0);
@@ -268,7 +250,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Normalize path
     char normalized_path[MAX_PATH_LEN];
     if (normalize_path(path, normalized_path) < 0) {
         send_error(client_fd, 404, "Not Found", is_head);
@@ -276,7 +257,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Build file path
     char file_path[PATH_MAX];
     int ret = snprintf(file_path, sizeof(file_path), "%s%s", srv->docroot, normalized_path);
     if (ret >= sizeof(file_path)) {
@@ -285,7 +265,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Resolve and verify path is within docroot
     char resolved_path[PATH_MAX];
     if (!realpath(file_path, resolved_path)) {
         send_error(client_fd, 404, "Not Found", is_head);
@@ -299,7 +278,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Check if directory and append index file
     struct stat st;
     if (stat(resolved_path, &st) < 0) {
         send_error(client_fd, 404, "Not Found", is_head);
@@ -328,7 +306,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Open file
     int file_fd = open(resolved_path, O_RDONLY);
     if (file_fd < 0) {
         send_error(client_fd, 500, "Internal Server Error", is_head);
@@ -336,7 +313,6 @@ int th_serve_once(th_server *srv) {
         return 0;
     }
     
-    // Send response headers
     char date_buf[64];
     format_http_date(date_buf, sizeof(date_buf));
     
@@ -355,7 +331,6 @@ int th_serve_once(th_server *srv) {
     
     send(client_fd, headers, headers_len, 0);
     
-    // Send file content for GET
     if (!is_head) {
         char file_buf[8192];
         ssize_t bytes_read;

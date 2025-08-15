@@ -3,6 +3,7 @@ sh_test(
     srcs = ["test_smoke.sh"],
     data = [
         "//examples/static_server:static_server",
-    ] + glob(["../../examples/static_server/www/**/*"]),
+        "//examples/static_server/www",
+    ],
     size = "small",
 )
