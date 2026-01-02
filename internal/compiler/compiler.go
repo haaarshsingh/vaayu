@@ -5,6 +5,9 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/html"
 )
 
 type CompileOptions struct {
@@ -72,6 +75,17 @@ func Compile(content string, filePath string, opts CompileOptions) (*CompileResu
 	}
 
 	result = injectAssets(result, cssLinks, jsScripts, opts.DevMode)
+
+	if !opts.DevMode {
+		m := minify.New()
+		m.AddFunc("text/html", html.Minify)
+		minified, err := m.String("text/html", result)
+		if err == nil {
+			result = minified
+		} else {
+			fmt.Printf("Warning: HTML minification failed: %v\n", err)
+		}
+	}
 
 	return &CompileResult{
 		HTML:       result,

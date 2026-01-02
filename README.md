@@ -1,16 +1,12 @@
-# 🌬️ Vaayu
+![image](https://vaayu.lol/og.png)
 
-A static site generator with JavaScript templating, built in Go.
+<p align="center">
+  <a href="#">
+    <h2 align="center">Vaayu</h2>
+  </a>
+</p>
 
-Vaayu compiles `.vyu` files into static HTML, using an embedded JavaScript runtime for template expressions and Vite for modern asset bundling.
-
-## Features
-
-- **JavaScript Templating**: Write JavaScript expressions directly in your HTML templates
-- **Embedded JS Runtime**: Uses [goja](https://github.com/dop251/goja), a pure Go JavaScript implementation
-- **Vite Integration**: Modern CSS/JS bundling with HMR in development
-- **Live Reload**: Automatic page refresh during development
-- **Simple Syntax**: Minimal learning curve with familiar `{{ expression }}` syntax
+<p align="center">Tiny (<5kB), zero-config static site generator</p>
 
 ## Installation
 
@@ -22,11 +18,10 @@ Vaayu compiles `.vyu` files into static HTML, using an embedded JavaScript runti
 ### Install from source
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/harshsingh/vaayu.git
 cd vaayu
 
-# Install Go dependencies
 go mod download
 
 # Install Vite dependencies
@@ -39,10 +34,10 @@ go build -o vaayu ./cmd/vaayu
 ## Quick Start
 
 ```bash
-# Start the development server
+# Start the dev server
 ./vaayu dev
 
-# Build for production
+# Build for prod
 ./vaayu build
 ```
 
@@ -168,31 +163,7 @@ Flags:
       --vite string Vite config directory (default "vite")
 ```
 
-## Project Structure
-
-```
-your-project/
-├── cmd/vaayu/
-│   └── main.go           # CLI entrypoint
-├── internal/
-│   ├── compiler/         # VYU parser and compiler
-│   ├── devserver/        # Development server
-│   ├── build/            # Production build
-│   └── vite/             # Vite integration
-├── site/                 # Your source files
-│   ├── index.vyu
-│   ├── styles.css
-│   └── main.ts
-├── vite/                 # Vite configuration
-│   ├── package.json
-│   ├── vite.config.ts
-│   └── tsconfig.json
-├── dist/                 # Build output (gitignored)
-├── go.mod
-└── README.md
-```
-
-## File Routing
+## Routing
 
 Files in `site/` are mapped to URLs:
 
@@ -201,26 +172,6 @@ Files in `site/` are mapped to URLs:
 | `site/index.vyu`     | `/`          | `dist/index.html`     |
 | `site/about.vyu`     | `/about`     | `dist/about.html`     |
 | `site/blog/post.vyu` | `/blog/post` | `dist/blog/post.html` |
-
-## Why Goja?
-
-Vaayu uses [goja](https://github.com/dop251/goja) as its JavaScript runtime because:
-
-1. **Pure Go**: No CGO dependencies, easy cross-compilation
-2. **ES6+ Support**: Template literals, arrow functions, const/let, etc.
-3. **Performance**: Fast enough for template evaluation
-4. **Lightweight**: Small binary size compared to V8 bindings
-
-## Limitations
-
-Current MVP limitations:
-
-- **No nested `}}`**: Expressions cannot contain `}}` except as the closing delimiter
-- **No TypeScript in declarations**: Only JavaScript is supported in the declarations block
-- **No Markdown support**: HTML only
-- **No incremental builds**: Full rebuild on each `vaayu build`
-- **No source maps**: Error messages reference the original `.vyu` file but not line numbers within expressions
-- **Relative imports only**: Asset paths must be relative to the `.vyu` file
 
 ## Development
 
@@ -242,16 +193,3 @@ GOOS=linux GOARCH=amd64 go build -o vaayu-linux ./cmd/vaayu
 # Windows
 GOOS=windows GOARCH=amd64 go build -o vaayu.exe ./cmd/vaayu
 ```
-
-## Roadmap
-
-- [ ] Better error messages with line numbers
-- [ ] Incremental builds
-- [ ] Layouts and partials
-- [ ] Custom helpers in declarations
-- [ ] TypeScript in declarations block
-- [ ] Plugin system
-
-## License
-
-MIT

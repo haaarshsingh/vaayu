@@ -40,6 +40,8 @@ export default defineConfig({
     rollupOptions: {
       input: Object.keys(assetEntries).length > 0 ? assetEntries : undefined,
     },
+    minify: 'esbuild', // Minify JS/CSS
+    cssMinify: true,
   },
   server: {
     port: 5173,
