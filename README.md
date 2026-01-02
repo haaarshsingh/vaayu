@@ -8,14 +8,14 @@
 
 <p align="center">Tiny (<5kB), zero-config static site generator</p>
 
-## Installation
+### Installation
 
-### Prerequisites
+#### Prerequisites
 
 - Go 1.22 or later
 - Node.js 18+ and npm
 
-### Install from source
+#### Install from source
 
 ```bash
 # Clone the repo
@@ -31,7 +31,7 @@ cd vite && npm install && cd ..
 go build -o vaayu ./cmd/vaayu
 ```
 
-## Quick Start
+### Quick Start
 
 ```bash
 # Start the dev server
@@ -43,14 +43,14 @@ go build -o vaayu ./cmd/vaayu
 
 The dev server runs at `http://localhost:3000` by default.
 
-## `.vyu` File Syntax
+### `.vyu` File Syntax
 
 A `.vyu` file consists of two parts:
 
 1. **Declarations Block** (optional): JavaScript code at the top of the file, wrapped in `{{ }}`
 2. **HTML Template Body**: HTML with embedded `{{ expression }}` placeholders
 
-### Basic Example
+#### Basic Example
 
 ```html
 {{ const title = 'Hello, World!'; const items = ['Apple', 'Banana', 'Cherry'];
@@ -71,7 +71,7 @@ A `.vyu` file consists of two parts:
 </html>
 ```
 
-### Output
+#### Output
 
 ```html
 <!DOCTYPE html>
@@ -90,7 +90,7 @@ A `.vyu` file consists of two parts:
 </html>
 ```
 
-## Template Expressions
+### Template Expressions
 
 Expressions inside `{{ }}` are evaluated as JavaScript and their results are inserted into the HTML:
 
@@ -102,14 +102,14 @@ Expressions inside `{{ }}` are evaluated as JavaScript and their results are ins
 | `null`/`undefined` | Empty string          |
 | Object/Array       | `JSON.stringify()`    |
 
-### Examples
+#### Examples
 
 ```html
 {{ "Hello" }} → Hello {{ 42 }} → 42 {{ 3.14159 }} → 3.14159 {{ true }} → true {{
 null }} → (empty) {{ { a: 1, b: 2 } }} → {"a":1,"b":2} {{ [1, 2, 3] }} → [1,2,3]
 ```
 
-## Asset Imports
+### Asset Imports
 
 Use special helper functions to import CSS and JavaScript assets:
 
@@ -117,7 +117,7 @@ Use special helper functions to import CSS and JavaScript assets:
 {{ importCSS("./styles.css") }} {{ importJS("./main.ts") }}
 ```
 
-### Development Mode
+#### Development Mode
 
 In dev mode, assets are served from Vite's dev server with HMR support:
 
@@ -126,7 +126,7 @@ In dev mode, assets are served from Vite's dev server with HMR support:
 <script type="module" src="http://localhost:5173/main.ts"></script>
 ```
 
-### Production Build
+#### Production Build
 
 In production, assets are bundled by Vite with hashed filenames:
 
@@ -135,9 +135,9 @@ In production, assets are bundled by Vite with hashed filenames:
 <script type="module" src="/assets/main-def456.js"></script>
 ```
 
-## CLI Commands
+### CLI Commands
 
-### `vaayu dev`
+#### `vaayu dev`
 
 Start the development server with live reload.
 
@@ -150,7 +150,7 @@ Flags:
       --vite string Vite config directory (default "vite")
 ```
 
-### `vaayu build`
+#### `vaayu build`
 
 Build the site for production.
 
@@ -163,7 +163,7 @@ Flags:
       --vite string Vite config directory (default "vite")
 ```
 
-## Routing
+### Routing
 
 Files in `site/` are mapped to URLs:
 
@@ -173,15 +173,15 @@ Files in `site/` are mapped to URLs:
 | `site/about.vyu`     | `/about`     | `dist/about.html`     |
 | `site/blog/post.vyu` | `/blog/post` | `dist/blog/post.html` |
 
-## Development
+### Development
 
-### Running Tests
+#### Running Tests
 
 ```bash
 go test ./...
 ```
 
-### Building for Different Platforms
+#### Building for Different Platforms
 
 ```bash
 # macOS
