@@ -48,4 +48,3 @@ func GetAssetURL(manifestMap map[string]string, srcPath string) string {
 	}
 	return "/assets/" + srcPath
 }
-

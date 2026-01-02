@@ -167,14 +167,23 @@ if (initialActive) {
   const initialTab = initialActive.dataset.tab || "counter";
   if (codeDisplay) codeDisplay.innerHTML = codeExamples[initialTab] || "";
 
-  if (overlayTabs) {
-    overlayTabs.style.transition = "none";
-    requestAnimationFrame(() => {
-      updateClipPath(initialActive);
+  const updatePosition = () => {
+    if (overlayTabs) {
+      overlayTabs.style.transition = "none";
       requestAnimationFrame(() => {
-        overlayTabs.style.transition = "";
+        updateClipPath(initialActive);
+        requestAnimationFrame(() => {
+          overlayTabs.style.transition = "";
+        });
       });
-    });
+    }
+  };
+
+  updatePosition();
+
+  // Recalculate after fonts load to ensure correct dimensions
+  if (document.fonts) {
+    document.fonts.ready.then(updatePosition);
   }
 }
 

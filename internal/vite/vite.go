@@ -94,4 +94,3 @@ func EnsureInstalled(viteDir string) error {
 	}
 	return nil
 }
-

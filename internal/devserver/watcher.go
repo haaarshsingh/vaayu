@@ -11,12 +11,12 @@ import (
 )
 
 type Watcher struct {
-	watcher      *fsnotify.Watcher
-	watchDir     string
-	onChange     func()
-	done         chan struct{}
+	watcher       *fsnotify.Watcher
+	watchDir      string
+	onChange      func()
+	done          chan struct{}
 	debounceTimer *time.Timer
-	debounceMu   sync.Mutex
+	debounceMu    sync.Mutex
 }
 
 func NewWatcher(watchDir string, onChange func()) (*Watcher, error) {
@@ -96,4 +96,3 @@ func (w *Watcher) debounce() {
 
 	w.debounceTimer = time.AfterFunc(100*time.Millisecond, w.onChange)
 }
-

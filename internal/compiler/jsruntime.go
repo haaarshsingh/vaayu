@@ -100,4 +100,3 @@ func stringify(val goja.Value) string {
 		return string(bytes)
 	}
 }
-

@@ -158,4 +158,3 @@ func IsImportJS(expr string) (string, bool) {
 	}
 	return "", false
 }
-
