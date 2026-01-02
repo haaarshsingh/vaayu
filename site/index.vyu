@@ -17,14 +17,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vaayu.lol/">
     <meta property="og:title" content="{{ projectName }}">
-    <meta property="og:description" content="Create templates, bundle styles, run logic, and ship static HTML with blazing fast performance.">
+    <meta property="og:description" content="Create templates, bundle styles, run logic, and ship static HTML.">
     <meta property="og:image" content="https://vaayu.lol/og.png">
     <meta property="twitter:image" content="https://vaayu.lol/og.png">
 
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://vaayu.lol/">
     <meta property="twitter:title" content="{{ projectName }}">
-    <meta property="twitter:description" content="Create templates, bundle styles, run logic, and ship static HTML with blazing fast performance.">
+    <meta property="twitter:description" content="Create templates, bundle styles, run logic, and ship static HTML.">
     {{ importCSS("./styles.css") }}
   </head>
   <body>
