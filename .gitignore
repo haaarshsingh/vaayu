@@ -1,7 +1,40 @@
-bazel-*
-*.bazel
-*.bazelrc
-bazel-bin/
-bazel-out/
-bazel-testlogs/
-bazel-genfiles/
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+vite/node_modules/
+
+# Go binaries
+vaayu
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Go build cache
+*.out
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+tmp/
+.tmp/
+

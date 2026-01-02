@@ -1,0 +1,1 @@
+go install github.com/harshsingh/vaayu/cmd/vaayu@latest

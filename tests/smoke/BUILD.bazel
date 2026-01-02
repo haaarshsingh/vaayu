@@ -1,9 +1,0 @@
-sh_test(
-    name = "smoke_test",
-    srcs = ["test_smoke.sh"],
-    data = [
-        "//examples/static_server:static_server",
-        "//examples/static_server/www",
-    ],
-    size = "small",
-)

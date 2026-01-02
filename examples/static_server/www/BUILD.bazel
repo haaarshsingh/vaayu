@@ -1,7 +1,0 @@
-filegroup(
-    name = "www",
-    srcs = glob(["**/*"]),
-    visibility = ["//visibility:public"],
-)
-
-exports_files(glob(["**/*"]))

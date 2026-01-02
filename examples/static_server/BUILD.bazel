@@ -1,9 +1,0 @@
-load("@rules_cc//cc:defs.bzl", "cc_binary")
-
-cc_binary(
-    name = "static_server",
-    srcs = ["main.c"],
-    deps = ["//lib/http:http"],
-    copts = ["-O2", "-Wall", "-Wextra", "-pedantic", "-Werror", "-std=c99"],
-    visibility = ["//visibility:public"],
-)
