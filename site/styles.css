@@ -79,12 +79,19 @@ footer > div > a {
   color: #1c9fd2;
 }
 
+nav {
+  padding: 12px;
+}
+
+footer {
+  padding: 12px 24px;
+}
+
 nav,
 footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
   max-width: 820px;
   margin: 0 auto;
   border-right: 1px solid #e5e7eb;
