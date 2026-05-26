@@ -193,3 +193,7 @@ GOOS=linux GOARCH=amd64 go build -o vaayu-linux ./cmd/vaayu
 # Windows
 GOOS=windows GOARCH=amd64 go build -o vaayu.exe ./cmd/vaayu
 ```
+
+***
+
+Built by [Harsh Singh](https://harshsingh.me)
